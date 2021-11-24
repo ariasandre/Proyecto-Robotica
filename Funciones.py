@@ -8,9 +8,9 @@ def CinInv(x,y,z,plano):
     Lt = 18.5;
 #Se determina la orientacion (phi)
     if plano == "v":
-        phi = math.radians(0);
+        phi = math.radians(-10);
     else:
-        phi = math.radians(-90);
+        phi = math.radians(-70);
 #Se calcula theta 1
     t1 = math.atan2(y,x);
 #Se calcula theta 3
@@ -28,6 +28,7 @@ def CinInv(x,y,z,plano):
     t4 = phi - t2 - t3;
 #Solucion Cinematica Inversa
     solucion = [math.degrees(t1),math.degrees(t2),math.degrees(t3),math.degrees(t4)];
+    solucion = ArttoAct(solucion,)
     return solucion;
 
 def GTCubica(angi,angf,tf,n):
@@ -43,16 +44,15 @@ def GTCubica(angi,angf,tf,n):
     print(secuencia)
     return secuencia;
 
-def ArttoAct(solucion,pos):
+def ArttoAct(solucion):
     t1=solucion[0];
     t2=solucion[1];
     t3=solucion[2];
     t4=solucion[3];
-    stp = t1/11.25 - pos;
-    t2f = 90 + t2;
-    t3f = 90 - t3;
-    t4f = 90 + t4;
-    actuadores = [stp,t2f,t3f,t4f];
+    t1f = -t1;
+    t2f = 90 - t2;
+    t3f = -t3;
+    t4f = -t4;
+    actuadores = [t1f,t2f,t3f,t4f];
+    posactualt1 = t1f;
     return (actuadores);
-
-GTCubica(6,90,5,5)

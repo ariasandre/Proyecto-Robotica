@@ -1,6 +1,8 @@
 import math
 import Funciones
 
+posactualt1 = 0;
+
 def TLibre(xi,yi,zi,xf,yf,zf,plano):
     time = 2.5;
     n = 5;
@@ -114,3 +116,4 @@ def TCirc(xi,yi,zi,xf,yf,zf,plano):
         return secuencia;
 
 #TCirc(10,4,-2,10,3,-1,"v")
+Funciones.ArttoAct([28.6105,28.9902,-25.9079,-73.0823])
