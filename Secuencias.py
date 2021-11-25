@@ -198,7 +198,7 @@ def TCirc(xi, yi, zi, xf, yf, zf, plano):
 #Secuencias
 t = [0]
 #Se define el punto inicial
-xi = 20
+xi = 22
 yi = 8
 zi = -6
 plano = "h"
@@ -213,6 +213,7 @@ sect1 = []
 sect2 = []
 sect3 = []
 sect4 = []
+secuenciafinal = []
 deltatime = 5000/30
 
 def Actualizarlistas(secuencia): #secuencia = [t1,t2,t3,t4]
@@ -244,7 +245,7 @@ def Actualizarsect1():
     sect1temp = []
     for i in range(len(sect1)):
         if i == 0:
-            sect1temp.append(sect1[i])
+            sect1temp.append(0)
         else:
             temp = sect1[i]-sect1[i-1]
             sect1temp.append(temp)
@@ -256,25 +257,26 @@ def Pruebas():
     global xi
     global yi
     global zi
+    global secuenciafinal
     print("Punto 1")
     print(CinInv(xi,yi,zi,"h"))
-    print ("\n")
-    print("Punto 2")
-    print(CinInv(17,-10,-4,"h"))
-    print ("\n")
-    print("Punto 3")
-    print(CinInv(20,-7,-4,"h"))
-    print ("\n")
-    Actualizarlistas(TLibre(xi,yi,zi,17,-10,-4,"h"))
-    Actualizarlistas(TLineal(17,-10,-4,20,-7,-4,"h"))
-    TimeMatrix()
-    print (sect1)
+    #print ("\n")
+    #print("Punto 2")
+    #print(CinInv(17,-10,-4,"h"))
+    #print ("\n")
+    #print("Punto 3")
+    #print(CinInv(20,-7,-4,"h"))
+    #print ("\n")
+    Actualizarlistas(TLineal(xi,yi,zi,20,-10,-6,"h"))
+    #Actualizarlistas(TLineal(20,-10,-6,24,-7,-6,"h"))
+    #TimeMatrix()
+    #print (sect1)
     Actualizarsect1()
-    secuenciafinal = [t,sect1,sect2,sect3,sect4]
-    print ("\n")
+    secuenciafinal = [sect1,sect2,sect3,sect4]
+    #print ("\n")
     #print (secuenciafinal[0])
     #print ("\n")
-    print (secuenciafinal[1])
+    print (secuenciafinal)
     #print ("\n")
     #print (secuenciafinal[2]) 
     #print ("\n")
@@ -282,7 +284,35 @@ def Pruebas():
     #print ("\n")
     #print (secuenciafinal[4])
     #print ("\n")
-    #print(len(t))
-    #print(len(sect2))
+    print(len(sect1))
+    print(len(sect2))
+
+
+
+###############################################################################################################################################
+#Comunicacion
+from sys import getsizeof
+import serial
+import time
+def Comunicacion():
+    COM = 'COM8'
+    global secuenciafinal
+    port = serial.Serial(COM, 9600)
+    time.sleep(2)
+    #value = [1358, 158, 2358, -9658]
+
+    if port.isOpen():
+        for j in range(4):
+            for i in range(30):
+                port.write(str(int(secuenciafinal[j][i]*100)).encode('ascii'))
+                print(str(int(secuenciafinal[j][i]*100)))
+                time.sleep(0.02)
+        while True:
+            valor = port.readline().decode('ascii')
+            print(valor)
+            print("**********************")
+    else:
+        print("Error envio datos")
 
 Pruebas()
+Comunicacion()
