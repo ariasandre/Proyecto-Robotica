@@ -68,7 +68,7 @@ def ArttoAct(solucion):
 ###############################################################################################################################################
 #Trayectorias
 def TLibre(xi, yi, zi, xf, yf, zf, plano):
-    time = 5000
+    time = 10000
     n = 30
     #deltatime = 5000/30
     # Matriz thetas finales montar cubicas
@@ -131,65 +131,86 @@ def TLineal(xi, yi, zi, xf, yf, zf, plano):
 # semicirculo
 def TCirc(xi, yi, zi, xf, yf, zf, plano):
     # Tiempo total del recorrido
-    tf = 15000
-    t = [0]
+    time = 10000
     # Cantidad de segmentos
     n = 10
-    deltat = tf/n
+    deltatime = time/n
     # Secuencias de angulos independientes
     ti = CinInv(xi, yi, zi, plano)
+    #tf = CinInv(xf, yf, zf, plano)
+    #print("Angulos iniciales")
+    #print(ti)
+    #print("\n")
+    #print("Angulos finales")
+    #print(tf)
+    #print("\n")
     sect1 = [ti[0]]
     sect2 = [ti[1]]
     sect3 = [ti[2]]
     sect4 = [ti[3]]
-    # Plano vertical (yz) x cte)
-    # z**2+y**2=r
-    y = []
-    z = []
+    #Se define la cantidad de segmentos para la GTCubica
+    nGTCub = 3
     if plano == "v":
+        # Plano vertical (yz) x cte)
+        # y**2+z**2=r
+        y = [yi]
+        z = [zi]
         centroyz = [(yi+yf)/2, (zi+zf)/2]
         vi = [yi-centroyz[0], zi-centroyz[1]]
         vf = [yf-centroyz[0], zf-centroyz[1]]
         r = math.sqrt(vi[0]**2+vi[1]**2)
-        anguloinicial = math.atan2(zi, yi)
+        anguloinicial = math.atan2(vi[1], vi[0])
         angulototal = math.acos((vi[0]*vf[0]+vi[1]*vf[1])/(r**2))
         deltaang = angulototal/n
-        for i in range(n):
-            t.append(deltat*(i+1))
+        for i in range(1,n+1):
             ytemp = centroyz[0] + r*math.cos(anguloinicial+i*deltaang)
             ztemp = centroyz[1] + r*math.sin(anguloinicial+i*deltaang)
             y.append(ytemp)
             z.append(ztemp)
-            solucion = CinInv(xi, ytemp, ztemp, plano)
-            sect1.append(solucion[0])
-            sect2.append(solucion[1])
-            sect3.append(solucion[2])
-            sect4.append(solucion[3])
-        secuenciacircular = [t, sect1, sect2, sect3, sect4]
-        print(y)
-        print(z)
-        print(secuenciacircular)
+            #Hasta aqui funciona
+            puntoinicial = CinInv(xi, y[i-1], z[i-1], plano)
+            puntofinal = CinInv(xi, y[i], z[i], plano)
+            t1i = GTCubica(puntoinicial[0],puntofinal[0],deltatime,nGTCub)
+            t2i = GTCubica(puntoinicial[1],puntofinal[1],deltatime,nGTCub)
+            t3i = GTCubica(puntoinicial[2],puntofinal[2],deltatime,nGTCub)
+            t4i = GTCubica(puntoinicial[3],puntofinal[3],deltatime,nGTCub)
+            for i in range (nGTCub):
+                sect1.append(t1i[i])
+                sect2.append(t2i[i])
+                sect3.append(t3i[i])
+                sect4.append(t4i[i])
+        secuenciacircular = [sect1, sect2, sect3, sect4]
         return secuenciacircular
-    # Plano horizontal (xy) z cte
-    # x**2+y**2=r
     else:
+        # Plano horizontal (xy) z cte)
+        # x**2+y**2=r
+        x = [xi]
+        y = [yi]
         centroxy = [(xi+xf)/2, (yi+yf)/2]
         vi = [xi-centroxy[0], yi-centroxy[1]]
         vf = [xf-centroxy[0], yf-centroxy[1]]
         r = math.sqrt(vi[0]**2+vi[1]**2)
-        anguloinicial = math.atan2(yi, xi)
+        anguloinicial = math.atan2(vi[1], vi[0])
         angulototal = math.acos((vi[0]*vf[0]+vi[1]*vf[1])/(r**2))
         deltaang = angulototal/n
-        for i in range(n):
-            t.append(deltat*(i+1))
+        for i in range(1,n+1):
             xtemp = centroxy[0] + r*math.cos(anguloinicial+i*deltaang)
             ytemp = centroxy[1] + r*math.sin(anguloinicial+i*deltaang)
-            solucion = CinInv(xtemp, ytemp, zi, plano)
-            sect1 = sect1.append(solucion[0])
-            sect2 = sect2.append(solucion[1])
-            sect3 = sect3.append(solucion[2])
-            sect4 = sect4.append(solucion[3])
-        secuenciacircular = [t, sect1, sect2, sect3, sect4]
+            x.append(xtemp)
+            y.append(ytemp)
+            #Hasta aqui funciona
+            puntoinicial = CinInv(x[i-1], y[i-1], zi, plano)
+            puntofinal = CinInv(x[i], y[i], zi, plano)
+            t1i = GTCubica(puntoinicial[0],puntofinal[0],deltatime,nGTCub)
+            t2i = GTCubica(puntoinicial[1],puntofinal[1],deltatime,nGTCub)
+            t3i = GTCubica(puntoinicial[2],puntofinal[2],deltatime,nGTCub)
+            t4i = GTCubica(puntoinicial[3],puntofinal[3],deltatime,nGTCub)
+            for i in range (nGTCub):
+                sect1.append(t1i[i])
+                sect2.append(t2i[i])
+                sect3.append(t3i[i])
+                sect4.append(t4i[i])
+        secuenciacircular = [sect1, sect2, sect3, sect4]
         return secuenciacircular
 
 
@@ -214,7 +235,7 @@ sect2 = []
 sect3 = []
 sect4 = []
 secuenciafinal = []
-deltatime = 5000/30
+deltatime = 10000/30
 
 def Actualizarlistas(secuencia): #secuencia = [t1,t2,t3,t4]
     global sect1
