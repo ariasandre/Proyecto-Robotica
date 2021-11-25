@@ -3,12 +3,9 @@ import Funciones
 
 
 def TLibre(xi, yi, zi, xf, yf, zf, plano):
-    time = 2.5
-    n = 5
-    deltat = time/n
-    t = [0]
-    for i in range(n):
-        t.append(deltat*(i+1))
+    time = 5000
+    n = 30
+    #deltatime = 5000/30
     # Matriz thetas finales montar cubicas
     ti = Funciones.CinInv(xi, yi, zi, plano)
     tf = Funciones.CinInv(xf, yf, zf, plano)
@@ -17,22 +14,23 @@ def TLibre(xi, yi, zi, xf, yf, zf, plano):
     sect2 = Funciones.GTCubica(ti[1], tf[1], time, n)
     sect3 = Funciones.GTCubica(ti[2], tf[2], time, n)
     sect4 = Funciones.GTCubica(ti[3], tf[3], time, n)
-    secuencia = [t, sect1, sect2, sect3, sect4]
+    secuencia = [sect1, sect2, sect3, sect4]
     return secuencia
 
 
 def TLineal(xi, yi, zi, xf, yf, zf, plano):
     # Tiempo total del recorrido
-    tf = 5
-    t = []
+    time = 10000
+    t = [0]
     # Cantidad de segmentos
     n = 10
+    #deltatime = 10000/(10*3)
     # Matriz thetas iniciales
     ti = Funciones.CinInv(xi, yi, zi, plano)
     # Matriz thetas finales
     tf = Funciones.CinInv(xf, yf, zf, plano)
     # Determina el paso para cada segmento
-    deltat = tf/n
+    deltatime = time/n
     deltat1 = (tf[0] - ti[0])/n
     deltat2 = (tf[1] - ti[1])/n
     deltat3 = (tf[2] - ti[2])/n
@@ -43,19 +41,34 @@ def TLineal(xi, yi, zi, xf, yf, zf, plano):
     sect3 = [ti[2]]
     sect4 = [ti[3]]
     for i in range(n):
-        t.append((i+1)*deltat)
-        sect1.append(ti[0]+i*deltat1)
-        sect2.append(ti[1]+i*deltat2)
-        sect3.append(ti[2]+i*deltat3)
-        sect4.append(ti[3]+i*deltat4)
+        #Calculo de la secuencia de posiciones hasta la posicion siguiente
+        #usando GTCubicas
+        nGTCub = 3
+        t1i = Funciones.GTCubica(sect1[i],sect1[i]+deltat1,deltatime,nGTCub)
+        t2i = Funciones.GTCubica(sect2[i],sect2[i]+deltat2,deltatime,nGTCub)
+        t3i = Funciones.GTCubica(sect3[i],sect3[i]+deltat3,deltatime,nGTCub)
+        t4i = Funciones.GTCubica(sect4[i],sect4[i]+deltat4,deltatime,nGTCub)
+        for i in range (nGTCub):
+            #Se añade el punto siguiente a la secuencia
+            sect1.append(t1i[i])
+            sect2.append(t2i[i])
+            sect3.append(t3i[i])
+            sect4.append(t4i[i])
+    #Se elimina la posicion inicial puesto que esta incluida como posicion final
+    #de la secuencia anterior
+    sect1.pop(0)
+    sect2.pop(0)
+    sect3.pop(0)
+    sect4.pop(0)
     # Secuencia de angulos
-    secuencia = [t, sect1, sect2, sect3, sect4]
+    secuencia = [sect1, sect2, sect3, sect4]
     return secuencia
 
-
+#Trayectorias circulares, une los puntos inicial y finalmediante un
+# semicirculo
 def TCirc(xi, yi, zi, xf, yf, zf, plano):
     # Tiempo total del recorrido
-    tf = 5
+    tf = 15000
     t = [0]
     # Cantidad de segmentos
     n = 10
@@ -116,7 +129,6 @@ def TCirc(xi, yi, zi, xf, yf, zf, plano):
         secuencia = [t, sect1, sect2, sect3, sect4]
         return secuencia
 
+
 # TCirc(10,4,-2,10,3,-1,"v")
 
-
-Funciones.ArttoAct([28.6105, 28.9902, -25.9079, -73.0823])

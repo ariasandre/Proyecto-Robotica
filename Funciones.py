@@ -3,7 +3,6 @@ import math
 pos_act = 0
 pasos = 0
 
-
 def CinInv(x, y, z, plano):
     # Se definen las constantes
     L01 = 5
@@ -31,23 +30,23 @@ def CinInv(x, y, z, plano):
     # Se calcula theta 4
     t4 = phi - t2 - t3
     # Solucion Cinematica Inversa
-    solucion = [math.degrees(t1), math.degrees(t2), math.degrees(t3), math.degrees(t4)]
-    return solucion
+    solucionart = [math.degrees(t1), math.degrees(t2), math.degrees(t3), math.degrees(t4)]
+    solucionact = ArttoAct(solucionart)
+    return solucionact
 
 
+#Entrega el todos los puntos iniciando en t=deltatime
 def GTCubica(angi, angf, tf, n):
-    deltat = tf / n
-    secuencia = [angi]
+    deltatime = tf / n
+    secuencia = []
     a0 = angi
     a2 = -3 * (angi - angf) / (tf ** 2)
     a3 = 2 * (angi - angf) / (tf ** 3)
     for i in range(n):
-        ttemp = deltat * (i + 1)
+        ttemp = deltatime * (i + 1)
         pos = a0 + a2 * (ttemp ** 2) + a3 * (ttemp ** 3)
         secuencia.append(pos)
-    print(secuencia)
     return secuencia
-
 
 def ArttoAct(solucion):
     global pasos
@@ -67,12 +66,13 @@ def ArttoAct(solucion):
     return actuadores
 
 
-S = CinInv(22, 11, -7, "h")
-A = ArttoAct(S)
-print(A)
-S = CinInv(22,-11, -7, "h")
-A = ArttoAct(S)
-print(A)
-S = CinInv(22, 11, -7, "h")
-A = ArttoAct(S)
-print(A)
+#S = CinInv(22, 11, -7, "h")
+#A = ArttoAct(S)
+#print(A)
+#S = CinInv(22,-11, -7, "h")
+#A = ArttoAct(S)
+#print(A)
+#S = CinInv(22, 11, -7, "h")
+#A = ArttoAct(S)
+#print(A)
+GTCubica(0,90,5,5)
