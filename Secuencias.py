@@ -179,6 +179,10 @@ def TCirc(xi, yi, zi, xf, yf, zf, plano):
                 sect2.append(t2i[i])
                 sect3.append(t3i[i])
                 sect4.append(t4i[i])
+        sect1.pop(0)
+        sect2.pop(0)
+        sect3.pop(0)
+        sect4.pop(0)
         secuenciacircular = [sect1, sect2, sect3, sect4]
         return secuenciacircular
     else:
@@ -210,6 +214,10 @@ def TCirc(xi, yi, zi, xf, yf, zf, plano):
                 sect2.append(t2i[i])
                 sect3.append(t3i[i])
                 sect4.append(t4i[i])
+        sect1.pop(0)
+        sect2.pop(0)
+        sect3.pop(0)
+        sect4.pop(0)
         secuenciacircular = [sect1, sect2, sect3, sect4]
         return secuenciacircular
 
@@ -282,45 +290,130 @@ def Pruebas():
     global yi
     global zi
     global secuenciafinal
-    #print("Punto 1")
-    print(CinInv(xi,yi,zi,"h"))
-    #print ("\n")
-    #print("Punto 2")
-    #print(CinInv(17,-10,-4,"h"))
-    #print ("\n")
-    #print("Punto 3")
-    #print(CinInv(20,-7,-4,"h"))
-    #print ("\n")
-    Actualizarlistas(TLineal(xi,yi,zi, 25, 8, -5.7,"h")) #libre
-    Actualizarlistas(TLineal(25, 8, -5.7, 22, 10, -5.4, "h")) #lineal
-    Actualizarlistas(TLineal(22, 10, -5.4, 22, 10, -4, "h")) #libre
-    Actualizarlistas(TLineal(22, 10, -4, 25+0.5, 8-1, -4, "h")) #libre
-    Actualizarlistas(TLineal(25+0.5, 8-1, -4, 25+0.5, 8-1, -5.8, "h")) #libre
-    Actualizarlistas(TLineal(25+0.5, 8-1, -5.8, 22, 6-1, -5.8, "h")) #lineal
-    Actualizarlistas(TLineal(22, 6-1, -5.8, 22, 6-1, -4, "h"))#libre
 
-    #Actualizarlistas(TLineal(xi,yi,zi, 25, 8, -5.5,"h")) #libre
-    #Actualizarlistas(TLineal(25, 8, -5.5, 27, 7, -5.3,"h")) #libre
-    #Actualizarlistas(TLineal(27, 7, -5.3, 25, 6, -5.5, "h"))  # libre
-    #Actualizarlistas(TLineal(25, 6, -5.5, 25, 6, -4, "h"))
+    ######################### Primera A ###############################
+    # Bajar marcador
+    #Actualizarlistas(TLineal(xi,yi,zi, 25, 8, -5.7,"h")) #libre
 
-    #TimeMatrix()
-    #print (sect1)
+    # Primer trazo
+    #Actualizarlistas(TLineal(25, 8, -5.7, 22, 10, -5.4, "h")) #lineal
+
+    # Levanta marcador
+    #Actualizarlistas(TLineal(22, 10, -5.4, 22, 10, -4, "h")) #libre
+
+    # Mueve al inicio
+    #Actualizarlistas(TLineal(22, 10, -4, 25.5, 6.5, -4, "h")) #libre
+
+    # Baja marcador
+    #Actualizarlistas(TLineal(25.5, 6.5, -4, 25.5, 6.5, -5.8, "h")) #libre
+
+    # Segundo trazo
+    #Actualizarlistas(TLineal(25.5, 6.5, -5.8, 22, 4.6, -5.8, "h")) #lineal
+
+    # Levanta marcador
+    #Actualizarlistas(TLineal(22, 4.6, -5.8, 22, 4.6, -4, "h"))#libre
+
+    # Movimiento al siguiente punto
+    #Actualizarlistas(TLineal(22, 4.6, -4, 24, 7.6, -4, "h"))  # libre
+
+    # Bajar marcador
+    #Actualizarlistas(TLineal(24, 7.6, -4, 24, 7.6, -5.5, "h"))  # libre
+
+    # Tercer trazo
+    #Actualizarlistas(TLineal(24, 7.6, -5.5, 24, 4, -5.1, "h"))  # libre
+
+    # Levantar marcador
+    #Actualizarlistas(TLineal(24, 4, -5.1, 24, 4, -4, "h"))  # libre
+
+    ######################### Segunda A ###############################
+    # Mover a siguiente punto inicial
+    #Actualizarlistas(TLineal(24, 4, -4, 25, 0, -4.5, "h"))  # libre
+
+    # Bajar marcador
+    #Actualizarlistas(TLineal(25, 0, -4.5, 25, 0, -6, "h"))  # libre
+
+    # Primer trazo
+    #Actualizarlistas(TLineal(25, 0, -6, 22, 3, -6, "h"))  # lineal
+
+    # Levanta marcador
+    #Actualizarlistas(TLineal(22, 3, -6, 22, 3, -4.5, "h"))  # libre
+
+    # Mueve al inicio
+    #Actualizarlistas(TLineal(22, 3, -4.5, 25.5, 0, -4.5, "h"))  # libre
+
+    # Baja marcador
+    #Actualizarlistas(TLineal(25.5, 0, -4.5, 25.5, 0, -6, "h"))  # libre
+
+    # Segundo trazo
+    #Actualizarlistas(TLineal(25.5, 0, -6, 22, -2, -6, "h"))  # lineal
+
+    # Levanta marcador
+    #Actualizarlistas(TLineal(22, -2, -6, 22, -2, -4.5, "h"))  # libre
+
+    # Movimiento al siguiente punto
+    #Actualizarlistas(TLineal(22, -2, -4.5, 23, 2, -4.5, "h"))  # libre
+
+    # Bajar marcador
+    #Actualizarlistas(TLineal(23, 2, -4.5, 23, 2, -6, "h"))  # libre
+
+    # Tercer trazo
+    #Actualizarlistas(TLineal(23, 2, -6, 23, -1, -6, "h"))  # libre
+
+    # Levantar marcador
+    #Actualizarlistas(TLineal(23, -1, -6, 23, -1, -4.5, "h"))  # libre
+
+    ######################### Letra O ###############################
+    # Mover a siguiente punto inicial
+    Actualizarlistas(TLineal(23, -1, -4.5, 25, -4.5, -4.5, "h"))  # libre
+
+    # Bajar marcador
+    Actualizarlistas(TLineal(25, -4.5, -4, 25, -4.5, -6, "h"))  # libre
+
+    # Primer trazo
+    Actualizarlistas(TCirc(25, -4.5, -6, 23, -2.5, -6, "h"))  # lineal
+
+    # Segundo trazo
+    Actualizarlistas(TLineal(23, -2.5, -6, 21, -4.5, -6, "h"))  # lineal
+
+    # Levantar marcador
+    Actualizarlistas(TLineal(21, -4.5, -6, 21, -4.5, -4, "h"))  # lineal
+
+    # Mover punto inicio
+    Actualizarlistas(TLineal(21, -4.5, -4, 25, -4.5, -4, "h"))  # libre
+
+    # Bajar marcador
+    Actualizarlistas(TLineal(25, -4.5, -4, 25, -4.5, -6, "h"))  # libre
+
+    # Tercer punto*
+    Actualizarlistas(TLineal(25, -4.5, -6, 23, -6.5, -6, "h"))  # lineal
+
+    # Cuarto punto*
+    Actualizarlistas(TLineal(23, -6.5, -6, 21, -4.5, -6, "h"))  # lineal
+
+
+    # Levanta marcador
+    #Actualizarlistas(TLineal(21, -4.5, -6, 21, -4.5, -4.5, "h"))  # lineal
+
+    # Mueve al inicio
+    #Actualizarlistas(TLineal(21, -4.5, -4.5, 26, -5.5, -4.5, "h"))  # libre
+
+    # Baja marcador
+    #Actualizarlistas(TLineal(26, -5.5, -4.5, 26, -5.5, -6, "h"))  # libre
+
+    # Tercer trazo
+    #Actualizarlistas(TLineal(26, -5.5, -6, 24, -7.5, -6, "h"))  # lineal
+
+    # Cuarto trazo
+    #Actualizarlistas(TLineal(24, -7.5, -6, 22, -5.5, -6, "h"))  # lineal
+
+    # Levanta marcador
+    #Actualizarlistas(TLineal(19.5, 2, -6, 19.5, 22, -4.5, "h"))  # libre
+
+
     Actualizarsect1()
     secuenciafinal = [sect1,sect2,sect3,sect4]
-    #print ("\n")
     print (secuenciafinal[1])
-    #print ("\n")
-    #print (secuenciafinal)
-    #print ("\n")
-    #print (secuenciafinal[2]) 
-    #print ("\n")
-    #print (secuenciafinal[3])
-    #print ("\n")
-    #print (secuenciafinal[4])
-    #print ("\n")
-    #print(len(sect1))
-    #print(len(sect2))
+
 
 
 ###############################################################################################################################################

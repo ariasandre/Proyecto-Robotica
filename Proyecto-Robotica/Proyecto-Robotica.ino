@@ -1,4 +1,4 @@
-// Se agregan las librerias necesarias
+// Se incluyen las librerias
 #include <Stepper.h>
 #include <Servo.h>
 
@@ -26,6 +26,7 @@ float M4_timing;
 
 // Se definen otros pines de interes
 int pin_inicio = 12; // Pin inicio de secuencia
+int LED1 = 2, LED2 = 4, LED3 = 7;
 bool pos1 = LOW;
 
 // Se definen otras variables de interes
@@ -34,7 +35,6 @@ bool inicial = false;
 
 // Se definen variables para Serial
 float elemento_serial = 0;
-float t[30];
 float M1[30];
 float M2[30];
 float M3[30];
@@ -42,9 +42,11 @@ float M4[30];
 int i = 0;
 int j = 0;
 int k = 0;
+bool letra_o = false;
+int resets = 0;
 int proximo = 3;
 bool listo_serial = false;
-int LED1 = 2, LED2 = 4, LED3 = 7;
+
 
 void setup() {
   // Configuración de pines
@@ -56,6 +58,7 @@ void setup() {
   servo2.attach(5);
   servo3.attach(6);
 
+  // Configuración del puerto serial
   Serial.begin(9600);
   Serial.setTimeout(10);
 }
@@ -70,6 +73,8 @@ void loop() {
   M2_timing = round(11.555556*M2_angulo + 660); //0 - 90
   M3_timing = round(-11.111111*M3_angulo + 2300); // 0 - 90
   M4_timing = round(11.888889*M4_angulo + 750); //750-1820
+
+  // Posición Incial
   servo1.writeMicroseconds(M2_timing);
   servo2.writeMicroseconds(M3_timing);
   servo3.writeMicroseconds(M4_timing);
@@ -78,13 +83,17 @@ void loop() {
     motor_a_pasos.step(pasos);
   }
 
-  // Lectura del inicio
-  //value = digitalRead(pin_inicio);
-
   // Inicio de secuencia
   if(listo_serial){
     // rayando
-    if(k == 2 || k == 6){
+    // if((k == 1|| k == 2 || k == 5 || k == 6 ||k == 9 || k == 10) && (letra_o == false)){
+    if((k == 2 || k == 3 || k ==4 || k == 7 || k == 8 || k == 9 ) && (letra_o == false) ){
+      if (k == 10){
+        motor_a_pasos.setSpeed(1000);
+      }
+      else{
+        motor_a_pasos.setSpeed(300);
+      }
       for (int i_for = 0; i_for < 30; i_for++){ 
         pasos = round(5.688889*M1[i_for]);
         M2_timing = round(11.555556*M2[i_for] + 660); //0 - 90
@@ -95,7 +104,28 @@ void loop() {
         servo2.writeMicroseconds(M3_timing);
         servo1.writeMicroseconds(M2_timing);
         motor_a_pasos.step(pasos);
-        delay(30);
+        delay(50);
+      }
+    M2_angulo = M2[29];
+    M3_angulo = M3[29];
+    M4_angulo = M4[29];
+    listo_serial = false;
+    Serial.println(proximo);
+    }
+
+    else if ((k == 1|| k == 2 || k == 3 || k == 6 ||k == 7 || k == 8) && (letra_o == true) ){
+      motor_a_pasos.setSpeed(300);
+      for (int i_for = 0; i_for < 30; i_for++){ 
+        pasos = round(5.688889*M1[i_for]);
+        M2_timing = round(11.555556*M2[i_for] + 660); //0 - 90
+        M3_timing = round(-11.111111*M3[i_for] + 2300); // 0 - 90
+        M4_timing = round(11.888889*M4[i_for] + 750); //750-1820
+  
+        servo3.writeMicroseconds(M4_timing);
+        servo2.writeMicroseconds(M3_timing);
+        servo1.writeMicroseconds(M2_timing);
+        motor_a_pasos.step(pasos);
+        delay(50);
       }
     M2_angulo = M2[29];
     M3_angulo = M3[29];
@@ -106,21 +136,33 @@ void loop() {
 
     // libre
     else{
+      motor_a_pasos.setSpeed(300);
       for (int i_for = 0; i_for < 30; i_for++){
       pasos = round(5.688889*M1[i_for]);
       M2_timing = round(11.555556*M2[i_for] + 660); //0 - 90
       M3_timing = round(-11.111111*M3[i_for] + 2300); // 0 - 90
       M4_timing = round(11.888889*M4[i_for] + 750); //750-1820
-
-      servo3.writeMicroseconds(M4_timing);
-      delay(650);
-      servo2.writeMicroseconds(M3_timing);
-      delay(650);
-      servo1.writeMicroseconds(M2_timing);
-      delay(650);
-      motor_a_pasos.step(pasos);
-      delay(650);
+      if((k == 5) && (letra_o == true)){
+        servo3.writeMicroseconds(M4_timing);
+        delay(900);
+        servo2.writeMicroseconds(M3_timing);
+        delay(900);
+        servo1.writeMicroseconds(M2_timing);
+        delay(900);
+        motor_a_pasos.step(pasos);
+        delay(400);
       }
+      else{ 
+        servo3.writeMicroseconds(M4_timing);
+        delay(650);
+        servo2.writeMicroseconds(M3_timing);
+        delay(650);
+        servo1.writeMicroseconds(M2_timing);
+        delay(650);
+        motor_a_pasos.step(pasos);
+        delay(200);
+      }
+    }
     M2_angulo = M2[29];
     M3_angulo = M3[29];
     M4_angulo = M4[29];
@@ -193,7 +235,16 @@ void serialEvent() {
         digitalWrite(LED2, HIGH);
         digitalWrite(LED3, HIGH);
         j=0;
-        k++;
+        if (k == 11){
+          k = 0;
+          resets++;
+          if (resets == 2){
+            letra_o = true;
+          }
+        }
+        else{
+          k++;
+        }
         listo_serial = true;
       }
     }
