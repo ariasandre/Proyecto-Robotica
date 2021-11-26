@@ -15,7 +15,7 @@ def CinInv(x, y, z, plano):
     if plano == "v":
         phi = math.radians(-10)
     else:
-        phi = math.radians(-70)
+        phi = math.radians(-60)
     # Se calcula theta 1
     t1 = math.atan2(y, x)
     # Se calcula theta 3
@@ -219,9 +219,9 @@ def TCirc(xi, yi, zi, xf, yf, zf, plano):
 #Secuencias
 t = [0]
 #Se define el punto inicial
-xi = 22
+xi = 25
 yi = 8
-zi = -6
+zi = -4
 plano = "h"
 #Inicializa en posicion de reposo en el espacio
 # de los actuadores
@@ -236,12 +236,14 @@ sect3 = []
 sect4 = []
 secuenciafinal = []
 deltatime = 10000/30
+trazos = 0
 
 def Actualizarlistas(secuencia): #secuencia = [t1,t2,t3,t4]
     global sect1
     global sect2
     global sect3
     global sect4
+    global trazos
     for i in range(len(secuencia[0])):
         sect1.append(secuencia[0][i])
     for i in range(len(secuencia[1])):
@@ -250,6 +252,7 @@ def Actualizarlistas(secuencia): #secuencia = [t1,t2,t3,t4]
         sect3.append(secuencia[2][i])
     for i in range(len(secuencia[3])):
         sect4.append(secuencia[3][i])
+    trazos = trazos + 1
 
 #Crea la matriz de tiempos
 def TimeMatrix():
@@ -279,7 +282,7 @@ def Pruebas():
     global yi
     global zi
     global secuenciafinal
-    print("Punto 1")
+    #print("Punto 1")
     print(CinInv(xi,yi,zi,"h"))
     #print ("\n")
     #print("Punto 2")
@@ -288,16 +291,27 @@ def Pruebas():
     #print("Punto 3")
     #print(CinInv(20,-7,-4,"h"))
     #print ("\n")
-    Actualizarlistas(TLineal(xi,yi,zi,20,-10,-6,"h"))
-    #Actualizarlistas(TLineal(20,-10,-6,24,-7,-6,"h"))
+    Actualizarlistas(TLineal(xi,yi,zi, 25, 8, -5.7,"h")) #libre
+    Actualizarlistas(TLineal(25, 8, -5.7, 22, 10, -5.4, "h")) #lineal
+    Actualizarlistas(TLineal(22, 10, -5.4, 22, 10, -4, "h")) #libre
+    Actualizarlistas(TLineal(22, 10, -4, 25+0.5, 8-1, -4, "h")) #libre
+    Actualizarlistas(TLineal(25+0.5, 8-1, -4, 25+0.5, 8-1, -5.8, "h")) #libre
+    Actualizarlistas(TLineal(25+0.5, 8-1, -5.8, 22, 6-1, -5.8, "h")) #lineal
+    Actualizarlistas(TLineal(22, 6-1, -5.8, 22, 6-1, -4, "h"))#libre
+
+    #Actualizarlistas(TLineal(xi,yi,zi, 25, 8, -5.5,"h")) #libre
+    #Actualizarlistas(TLineal(25, 8, -5.5, 27, 7, -5.3,"h")) #libre
+    #Actualizarlistas(TLineal(27, 7, -5.3, 25, 6, -5.5, "h"))  # libre
+    #Actualizarlistas(TLineal(25, 6, -5.5, 25, 6, -4, "h"))
+
     #TimeMatrix()
     #print (sect1)
     Actualizarsect1()
     secuenciafinal = [sect1,sect2,sect3,sect4]
     #print ("\n")
-    #print (secuenciafinal[0])
+    print (secuenciafinal[1])
     #print ("\n")
-    print (secuenciafinal)
+    #print (secuenciafinal)
     #print ("\n")
     #print (secuenciafinal[2]) 
     #print ("\n")
@@ -305,9 +319,8 @@ def Pruebas():
     #print ("\n")
     #print (secuenciafinal[4])
     #print ("\n")
-    print(len(sect1))
-    print(len(sect2))
-
+    #print(len(sect1))
+    #print(len(sect2))
 
 
 ###############################################################################################################################################
@@ -315,25 +328,38 @@ def Pruebas():
 from sys import getsizeof
 import serial
 import time
+
 def Comunicacion():
-    COM = 'COM8'
     global secuenciafinal
+    global trazos
+    loop = True
+    COM = 'COM8'
     port = serial.Serial(COM, 9600)
     time.sleep(2)
-    #value = [1358, 158, 2358, -9658]
 
-    if port.isOpen():
-        for j in range(4):
-            for i in range(30):
-                port.write(str(int(secuenciafinal[j][i]*100)).encode('ascii'))
-                print(str(int(secuenciafinal[j][i]*100)))
-                time.sleep(0.02)
-        while True:
-            valor = port.readline().decode('ascii')
-            print(valor)
-            print("**********************")
-    else:
-        print("Error envio datos")
+    while loop:
+        if port.isOpen():
+            for k in range(1, trazos+1):
+                envio = True
+                for j in range(4):
+                    for i in range(30*(k-1), 30*k):
+                        port.write(str(int(secuenciafinal[j][i]*100)).encode('ascii'))
+                        print(str(int(secuenciafinal[j][i]*100)))
+                        time.sleep(0.02)
+                while envio:
+                    print("Esperando dato...")
+                    value = str(port.readline().decode('ascii'))
+                    if value != "":
+                        print("Dato recibido!")
+                        envio = False
+                        value = ''
+                    else:
+                        print("No se ha recibio el dato correcto")
+            loop = False
+        else:
+            print("Error envio datos")
 
 Pruebas()
 Comunicacion()
+
+#print(CinInv(25, 8, -4,"h"))
