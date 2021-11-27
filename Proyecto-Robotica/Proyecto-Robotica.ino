@@ -47,7 +47,7 @@ int resets = 0;
 int proximo = 3;
 bool listo_serial = false;
 
-
+// Se realiza la confuguración inicial
 void setup() {
   // Configuración de pines
   pinMode(pin_inicio,INPUT);
@@ -64,7 +64,7 @@ void setup() {
 }
 
 void loop() {
-  //------------Definición posición de reposo------------//
+  //-----------------Definición posición de reposo------------------//
   // Configuración del motor a pasos
   motor_a_pasos.setSpeed(300);
   pasos = round(5.688889*M1_angulo);
@@ -83,94 +83,126 @@ void loop() {
     motor_a_pasos.step(pasos);
   }
 
-  // Inicio de secuencia
+  //-----------------------Inicio de secuencia-----------------------//
+  // Inicia la secuencia cuando se haya recibido la trama de datos
   if(listo_serial){
-    // rayando
-    // if((k == 1|| k == 2 || k == 5 || k == 6 ||k == 9 || k == 10) && (letra_o == false)){
-    if((k == 2 || k == 3 || k ==4 || k == 7 || k == 8 || k == 9 ) && (letra_o == false) ){
+    // Rayando las letras A
+    if((k == 1|| k == 2 || k == 5 || k == 6 ||k == 9 || k == 10) && (letra_o == false)){
+
+      // Si se esta haciendo el trazo horizontal de la A
       if (k == 10){
         motor_a_pasos.setSpeed(1000);
       }
       else{
         motor_a_pasos.setSpeed(300);
       }
-      for (int i_for = 0; i_for < 30; i_for++){ 
-        pasos = round(5.688889*M1[i_for]);
-        M2_timing = round(11.555556*M2[i_for] + 660); //0 - 90
-        M3_timing = round(-11.111111*M3[i_for] + 2300); // 0 - 90
-        M4_timing = round(11.888889*M4[i_for] + 750); //750-1820
-  
-        servo3.writeMicroseconds(M4_timing);
-        servo2.writeMicroseconds(M3_timing);
-        servo1.writeMicroseconds(M2_timing);
-        motor_a_pasos.step(pasos);
-        delay(50);
-      }
-    M2_angulo = M2[29];
-    M3_angulo = M3[29];
-    M4_angulo = M4[29];
-    listo_serial = false;
-    Serial.println(proximo);
-    }
 
-    else if ((k == 1|| k == 2 || k == 3 || k == 6 ||k == 7 || k == 8) && (letra_o == true) ){
-      motor_a_pasos.setSpeed(300);
-      for (int i_for = 0; i_for < 30; i_for++){ 
-        pasos = round(5.688889*M1[i_for]);
-        M2_timing = round(11.555556*M2[i_for] + 660); //0 - 90
-        M3_timing = round(-11.111111*M3[i_for] + 2300); // 0 - 90
-        M4_timing = round(11.888889*M4[i_for] + 750); //750-1820
-  
-        servo3.writeMicroseconds(M4_timing);
-        servo2.writeMicroseconds(M3_timing);
-        servo1.writeMicroseconds(M2_timing);
-        motor_a_pasos.step(pasos);
-        delay(50);
-      }
-    M2_angulo = M2[29];
-    M3_angulo = M3[29];
-    M4_angulo = M4[29];
-    listo_serial = false;
-    Serial.println(proximo);
-    }
-
-    // libre
-    else{
-      motor_a_pasos.setSpeed(300);
+      // Se realiza la secuencia
       for (int i_for = 0; i_for < 30; i_for++){
-      pasos = round(5.688889*M1[i_for]);
-      M2_timing = round(11.555556*M2[i_for] + 660); //0 - 90
-      M3_timing = round(-11.111111*M3[i_for] + 2300); // 0 - 90
-      M4_timing = round(11.888889*M4[i_for] + 750); //750-1820
-      if((k == 5) && (letra_o == true)){
+        // Se realiza la conversion para la funciones y se redondean los valores
+        pasos = round(5.688889*M1[i_for]);
+        M2_timing = round(11.555556*M2[i_for] + 660); //0 - 90
+        M3_timing = round(-11.111111*M3[i_for] + 2300); // 0 - 90
+        M4_timing = round(11.888889*M4[i_for] + 750); //750-1820
+
+        // Se evalua el valor obtenido
         servo3.writeMicroseconds(M4_timing);
-        delay(900);
         servo2.writeMicroseconds(M3_timing);
-        delay(900);
         servo1.writeMicroseconds(M2_timing);
-        delay(900);
         motor_a_pasos.step(pasos);
-        delay(400);
+        delay(50);
       }
-      else{ 
-        servo3.writeMicroseconds(M4_timing);
-        delay(650);
-        servo2.writeMicroseconds(M3_timing);
-        delay(650);
-        servo1.writeMicroseconds(M2_timing);
-        delay(650);
-        motor_a_pasos.step(pasos);
-        delay(200);
-      }
+      
+      // Se mantiene la posicion final
+      M2_angulo = M2[29];
+      M3_angulo = M3[29];
+      M4_angulo = M4[29];
+  
+      // Se activa la recepcion de datos y se habilita el envio de datos de la pc
+      listo_serial = false;
+      Serial.println(proximo);
     }
-    M2_angulo = M2[29];
-    M3_angulo = M3[29];
-    M4_angulo = M4[29];
-    listo_serial = false;
-    Serial.println(proximo);
+
+    // Rayando la letra O
+    else if ((k == 1|| k == 2 || k == 3 || k == 6 ||k == 7 || k == 8) && (letra_o == true) ){
+      // Se configura la velocidad del motor
+      motor_a_pasos.setSpeed(300);
+
+      // Se realiza la secuencia
+      for (int i_for = 0; i_for < 30; i_for++){
+        // Se realiza la conversion para la funciones y se redondean los valores
+        pasos = round(5.688889*M1[i_for]);
+        M2_timing = round(11.555556*M2[i_for] + 660);
+        M3_timing = round(-11.111111*M3[i_for] + 2300);
+        M4_timing = round(11.888889*M4[i_for] + 750);
+
+        // Se evalua el valor obtenido
+        servo3.writeMicroseconds(M4_timing);
+        servo2.writeMicroseconds(M3_timing);
+        servo1.writeMicroseconds(M2_timing);
+        motor_a_pasos.step(pasos);
+        delay(50);
+      }
+      
+      // Se mantiene la posicion final
+      M2_angulo = M2[29];
+      M3_angulo = M3[29];
+      M4_angulo = M4[29];
+
+      // Se activa la recepcion de datos y se habilita el envio de datos de la pc
+      listo_serial = false;
+      Serial.println(proximo);
+    }
+
+    // Realizando movimientos libres
+    else{
+      // Se configura la velocidad del motor
+      motor_a_pasos.setSpeed(300);
+
+      // Se realiza la secuencia
+      for (int i_for = 0; i_for < 30; i_for++){
+        // Se realiza la conversion para la funciones y se redondean los valores
+        pasos = round(5.688889*M1[i_for]);
+        M2_timing = round(11.555556*M2[i_for] + 660);
+        M3_timing = round(-11.111111*M3[i_for] + 2300);
+        M4_timing = round(11.888889*M4[i_for] + 750);
+
+        // Cambia la configuracion de las velocidades para un caso específico de la letra O
+        if((k == 5) && (letra_o == true)){
+          servo3.writeMicroseconds(M4_timing);
+          delay(1000);
+          servo2.writeMicroseconds(M3_timing);
+          delay(1000);
+          servo1.writeMicroseconds(M2_timing);
+          delay(1000);
+          motor_a_pasos.step(pasos);
+          delay(400);
+        }
+        // Si no se mantiene la configuracion inicial
+        else{ 
+          servo3.writeMicroseconds(M4_timing);
+          delay(650);
+          servo2.writeMicroseconds(M3_timing);
+          delay(650);
+          servo1.writeMicroseconds(M2_timing);
+          delay(650);
+          motor_a_pasos.step(pasos);
+          delay(200);
+        }
+      }
+
+      // Se mantiene la posicion final
+      M2_angulo = M2[29];
+      M3_angulo = M3[29];
+      M4_angulo = M4[29];
+
+      // Se activa la recepcion de datos y se habilita el envio de datos de la pc
+      listo_serial = false;
+      Serial.println(proximo);
     }
   }
-  // Recibir datos y controlar LEDs
+  
+  // Control de LEDs mientras se reciben datos
   else{
     switch (j){
       case 0:
@@ -206,45 +238,72 @@ void loop() {
   }
 }
 
-
+//---------------Handler de las interrumpciones del arduino----------------//
+// Funcion encargada de manejar donde se almacenan los datos provenientes de
+// la pc e iniciar la ejecucion del proceso una vez recibidos los datos
 void serialEvent() {
+  // Si hay un dato en el buffer de entrada
   while (Serial.available()) {
+    // Se recibe el dato, se convierte a flotante y se convierte
     elemento_serial = Serial.parseFloat(SKIP_WHITESPACE);
     elemento_serial = elemento_serial/100;
+
+    // Almacena el dato recibido en funcion del actuador al que pertenezca
     if (j == 0){
+      // Datos del motor a pasos
       M1[i] = elemento_serial;
     }
     else if(j == 1){
+      // Datos del servomotor 1
       M2[i] = elemento_serial;
     }
     else if(j == 2){
+      // Datos del servomotor 2
       M3[i] = elemento_serial;
     }
     else if(j == 3){
+      // Datos del servomotor 3
       M4[i] = elemento_serial;
     }
     else{
-      
+      // Si llegan mas datos los desecha
     }
+    
+    // Control de contadores
     i++;
     if(i == 30){
+      // Cada 30 elementos cambia el arreglo en el que se almacenan
+      // los datos y reinicia el contador i
       j++;
       i=0;
+
+      // Una vez que se hayan recibido las 4 tramas de datos coloca los leds en una configuracion
+      // especifica y configura ciertas banderas
       if(j == 4){
         digitalWrite(LED1, HIGH);
         digitalWrite(LED2, HIGH);
         digitalWrite(LED3, HIGH);
         j=0;
+
+        // Si se completa el trazo de la letra A
         if (k == 11){
+          // Se reinicia el recuento de trazos recibidos y se aumenta en 1 la cantidad de resets
+          // realizados
           k = 0;
           resets++;
+
+          // Si ya se dibujaron las dos A coloque la bandera en alto para indicar que se trazara la o
           if (resets == 2){
             letra_o = true;
           }
         }
+        
+        // Si aun no se ha completado la ejecucion de la letra aumente el contador de trazos
         else{
           k++;
         }
+        
+        // Indique que fue recibido un punto al cual moverse
         listo_serial = true;
       }
     }

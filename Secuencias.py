@@ -293,74 +293,74 @@ def Pruebas():
 
     ######################### Primera A ###############################
     # Bajar marcador
-    #Actualizarlistas(TLineal(xi,yi,zi, 25, 8, -5.7,"h")) #libre
+    Actualizarlistas(TLineal(xi,yi,zi, 25, 8, -5.7,"h")) #libre
 
     # Primer trazo
-    #Actualizarlistas(TLineal(25, 8, -5.7, 22, 10, -5.4, "h")) #lineal
+    Actualizarlistas(TLineal(25, 8, -5.7, 22, 10, -5.4, "h")) #lineal
 
     # Levanta marcador
-    #Actualizarlistas(TLineal(22, 10, -5.4, 22, 10, -4, "h")) #libre
+    Actualizarlistas(TLineal(22, 10, -5.4, 22, 10, -4, "h")) #libre
 
     # Mueve al inicio
-    #Actualizarlistas(TLineal(22, 10, -4, 25.5, 6.5, -4, "h")) #libre
+    Actualizarlistas(TLineal(22, 10, -4, 25.5, 6.5, -4, "h")) #libre
 
     # Baja marcador
-    #Actualizarlistas(TLineal(25.5, 6.5, -4, 25.5, 6.5, -5.8, "h")) #libre
+    Actualizarlistas(TLineal(25.5, 6.5, -4, 25.5, 6.5, -5.8, "h")) #libre
 
     # Segundo trazo
-    #Actualizarlistas(TLineal(25.5, 6.5, -5.8, 22, 4.6, -5.8, "h")) #lineal
+    Actualizarlistas(TLineal(25.5, 6.5, -5.8, 22, 4.6, -5.8, "h")) #lineal
 
     # Levanta marcador
-    #Actualizarlistas(TLineal(22, 4.6, -5.8, 22, 4.6, -4, "h"))#libre
+    Actualizarlistas(TLineal(22, 4.6, -5.8, 22, 4.6, -4, "h"))#libre
 
     # Movimiento al siguiente punto
-    #Actualizarlistas(TLineal(22, 4.6, -4, 24, 7.6, -4, "h"))  # libre
+    Actualizarlistas(TLineal(22, 4.6, -4, 24, 7.6, -4, "h"))  # libre
 
     # Bajar marcador
-    #Actualizarlistas(TLineal(24, 7.6, -4, 24, 7.6, -5.5, "h"))  # libre
+    Actualizarlistas(TLineal(24, 7.6, -4, 24, 7.6, -5.5, "h"))  # libre
 
     # Tercer trazo
-    #Actualizarlistas(TLineal(24, 7.6, -5.5, 24, 4, -5.1, "h"))  # libre
+    Actualizarlistas(TLineal(24, 7.6, -5.5, 24, 4, -5.1, "h"))  # libre
 
     # Levantar marcador
-    #Actualizarlistas(TLineal(24, 4, -5.1, 24, 4, -4, "h"))  # libre
+    Actualizarlistas(TLineal(24, 4, -5.1, 24, 4, -4, "h"))  # libre
 
     ######################### Segunda A ###############################
     # Mover a siguiente punto inicial
-    #Actualizarlistas(TLineal(24, 4, -4, 25, 0, -4.5, "h"))  # libre
+    Actualizarlistas(TLineal(24, 4, -4, 25, 0, -4.5, "h"))  # libre
 
     # Bajar marcador
-    #Actualizarlistas(TLineal(25, 0, -4.5, 25, 0, -6, "h"))  # libre
+    Actualizarlistas(TLineal(25, 0, -4.5, 25, 0, -6, "h"))  # libre
 
     # Primer trazo
-    #Actualizarlistas(TLineal(25, 0, -6, 22, 3, -6, "h"))  # lineal
+    Actualizarlistas(TLineal(25, 0, -6, 22, 3, -6, "h"))  # lineal
 
     # Levanta marcador
-    #Actualizarlistas(TLineal(22, 3, -6, 22, 3, -4.5, "h"))  # libre
+    Actualizarlistas(TLineal(22, 3, -6, 22, 3, -4.5, "h"))  # libre
 
     # Mueve al inicio
-    #Actualizarlistas(TLineal(22, 3, -4.5, 25.5, 0, -4.5, "h"))  # libre
+    Actualizarlistas(TLineal(22, 3, -4.5, 25.5, 0, -4.5, "h"))  # libre
 
     # Baja marcador
-    #Actualizarlistas(TLineal(25.5, 0, -4.5, 25.5, 0, -6, "h"))  # libre
+    Actualizarlistas(TLineal(25.5, 0, -4.5, 25.5, 0, -6, "h"))  # libre
 
     # Segundo trazo
-    #Actualizarlistas(TLineal(25.5, 0, -6, 22, -2, -6, "h"))  # lineal
+    Actualizarlistas(TLineal(25.5, 0, -6, 22, -2, -6, "h"))  # lineal
 
     # Levanta marcador
-    #Actualizarlistas(TLineal(22, -2, -6, 22, -2, -4.5, "h"))  # libre
+    Actualizarlistas(TLineal(22, -2, -6, 22, -2, -4.5, "h"))  # libre
 
     # Movimiento al siguiente punto
-    #Actualizarlistas(TLineal(22, -2, -4.5, 23, 2, -4.5, "h"))  # libre
+    Actualizarlistas(TLineal(22, -2, -4.5, 23, 2, -4.5, "h"))  # libre
 
     # Bajar marcador
-    #Actualizarlistas(TLineal(23, 2, -4.5, 23, 2, -6, "h"))  # libre
+    Actualizarlistas(TLineal(23, 2, -4.5, 23, 2, -6, "h"))  # libre
 
     # Tercer trazo
-    #Actualizarlistas(TLineal(23, 2, -6, 23, -1, -6, "h"))  # libre
+    Actualizarlistas(TLineal(23, 2, -6, 23, -1, -6, "h"))  # libre
 
     # Levantar marcador
-    #Actualizarlistas(TLineal(23, -1, -6, 23, -1, -4.5, "h"))  # libre
+    Actualizarlistas(TLineal(23, -1, -6, 23, -1, -4.5, "h"))  # libre
 
     ######################### Letra O ###############################
     # Mover a siguiente punto inicial
